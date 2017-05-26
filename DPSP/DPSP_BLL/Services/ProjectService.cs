@@ -1,5 +1,6 @@
 ﻿using DPSP_BLL.Models;
 using DPSP_DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,34 +30,42 @@ namespace DPSP_BLL
 
         public IEnumerable<ProjectModel> RetypeToProjectModel(IEnumerable<Project> userProjects, IEnumerable<Role> role)
         {
-            var roleType = role.FirstOrDefault().Enum;
-            IEnumerable<ProjectModel> projects;
-            projects = userProjects.Select(x => new ProjectModel()
+            try
             {
-                ProjectId = x.Id,
-                Name = x.Name,
-                Department = x.Department,
-                Client = x.Client,
-                Manager = x.Manager,
-                Employees = x.Employees,
-                Introduction = x.Introduction,
-                Content = x.Content,
-                Conclusion = x.Conclusion,
-                OpenDate = x.OpenDate,
-                CloseDate = x.CloseDate
-            }).ToList();
-            switch (roleType)
-            {      
-                case RoleType.Employee:
-                    foreach (var item in projects)
-                    {
-                        item.Budget = userProjects.FirstOrDefault(x => x.Id == item.ProjectId).Budget;
-                    }
-                    break;
-                default:
-                    break;
+                var roleType = role.FirstOrDefault().Enum;
+                IEnumerable<ProjectModel> projects;
+                projects = userProjects.Select(x => new ProjectModel()
+                {
+                    ProjectId = x.Id,
+                    Name = x.Name,
+                    Department = x.Department,
+                    Client = x.Client,
+                    Manager = x.Manager,
+                    Employees = x.Employees,
+                    Introduction = x.Introduction,
+                    Content = x.Content,
+                    Conclusion = x.Conclusion,
+                    OpenDate = x.OpenDate,
+                    CloseDate = x.CloseDate
+                }).ToList();
+                switch (roleType)
+                {
+                    case RoleType.Employee:
+                        foreach (var item in projects)
+                        {
+                            item.Budget = userProjects.FirstOrDefault(x => x.Id == item.ProjectId).Budget;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return projects;
             }
-            return projects;
+            //missing metadata!
+            catch(Exception e)
+            {
+                return null;
+            }
         }
 
         public IEnumerable<ProjectModel> GetProjectModels(ApplicationUserManager userManager, string userName)

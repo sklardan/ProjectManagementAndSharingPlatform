@@ -17,8 +17,9 @@ namespace DPSP_DAL.Migrations
 
         protected override void Seed(DPSP_DAL.DboContext context)
         {
-            //addProjects(context);
-            //createRoles(context);
+            //to run uncomment code below
+            addProjects(context);
+            createRoles(context);
         }
         private void createRoles(DPSP_DAL.DboContext context)
         {
