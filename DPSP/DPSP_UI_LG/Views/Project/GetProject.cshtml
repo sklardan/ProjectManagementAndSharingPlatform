@@ -1,0 +1,24 @@
+﻿@using DPSP_UI_LG.Helpers
+@model DPSP_UI_LG.Models.ListProjectViewModel
+@{
+    ViewBag.Title = "Projects";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@if (Ident.IsLogged && Model.ProjectViewModels.Count() != 0)
+{
+    @Html.AntiForgeryToken()
+    <div id="projects">
+        @Html.Partial("ProjectItem", Model)
+    </div>
+}
+else
+{
+    <p>No projects</p>
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
